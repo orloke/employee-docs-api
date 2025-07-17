@@ -26,7 +26,7 @@ export class Employee {
     required: true,
   })
   @Column({ nullable: false, unique: true, length: 11, type: 'char' })
-  document?: string;
+  document: string;
 
   @ApiProperty({
     example: '2023-01-01',

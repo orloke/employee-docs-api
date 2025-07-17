@@ -7,6 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { IsCPFValid } from 'src/validators/is-cpf-valid.validator';
 
 export class CreateEmployeeDto {
   @ApiProperty({
@@ -30,6 +31,7 @@ export class CreateEmployeeDto {
   })
   @IsString()
   @IsNotEmpty()
+  @IsCPFValid({ message: 'Document must be a valid CPF' })
   @Length(11, 11, { message: 'Document must be exactly 11 digits long' })
   @Matches(/^\d+$/, { message: 'Document must contain only numbers' })
   document: string;
