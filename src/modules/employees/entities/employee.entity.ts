@@ -23,9 +23,9 @@ export class Employee {
     example: '12345678901',
     minLength: 11,
     maxLength: 11,
-    required: false,
+    required: true,
   })
-  @Column({ nullable: true, unique: true, length: 11 })
+  @Column({ nullable: false, unique: true, length: 11, type: 'char' })
   document?: string;
 
   @ApiProperty({

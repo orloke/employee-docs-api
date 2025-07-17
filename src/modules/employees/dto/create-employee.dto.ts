@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  Length,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateEmployeeDto {
   @ApiProperty({
@@ -23,8 +30,8 @@ export class CreateEmployeeDto {
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(11)
-  @MaxLength(11)
+  @Length(11, 11, { message: 'Document must be exactly 11 digits long' })
+  @Matches(/^\d+$/, { message: 'Document must contain only numbers' })
   document: string;
 
   @ApiProperty({

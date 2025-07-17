@@ -17,6 +17,11 @@ export class EmployeesService implements IEmployeesService {
   constructor(private readonly employeesRepository: IEmployeesRepository) {}
 
   public async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+
+    if (createEmployeeDto.document) {
+      createEmployeeDto.document = createEmployeeDto.document.replace(/\D/g, '');
+    }
+
     const employee = await this.employeesRepository.findOneWithDeleted({
       where: { document: createEmployeeDto.document },
     });
