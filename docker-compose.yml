@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: employee-docs-postgres
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - employee_network
+
+volumes:
+  postgres_data:
+
+networks:
+  employee_network:
