@@ -1,26 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { Document } from 'src/modules/documents/entities/document.entity';
 import { CreateDocumentDto } from './dto/create-document.dto';
-import { UpdateDocumentDto } from './dto/update-document.dto';
+import { IDocumentsRepository } from './interfaces/documents-repository.interface';
+import { IDocumentService } from './interfaces/documents-service.interface';
 
 @Injectable()
-export class DocumentsService {
-  create(createDocumentDto: CreateDocumentDto) {
-    return 'This action adds a new document';
+export class DocumentsService implements IDocumentService {
+  constructor(private readonly documentsService: IDocumentsRepository) {}
+
+  public async create(createDocumentDto: CreateDocumentDto): Promise<Document> {
+    if (createDocumentDto.value) {
+      createDocumentDto.value = createDocumentDto.value.replace(/\D/g, '');
+    }
+
+    const findDocument = await this.documentsService.findOne({
+      where: { value: createDocumentDto.value },
+    });
+
+    if (findDocument) {
+      throw new ConflictException('Document already exists in database');
+    }
+
+    return await this.documentsService.create(createDocumentDto);
   }
 
-  findAll() {
-    return `This action returns all documents`;
+  public async findAll(): Promise<Document[] | null> {
+    return await this.documentsService.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} document`;
-  }
-
-  update(id: number, updateDocumentDto: UpdateDocumentDto) {
-    return `This action updates a #${id} document`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} document`;
+  public async findOne(id: number): Promise<Document | null> {
+    const document = await this.documentsService
+      .findOne({ where: { id }, relations: ['employee'] })
+      .catch((err) => {
+        throw new BadRequestException(err.message);
+      });
+    if (!document) {
+      throw new NotFoundException('Document not found');
+    }
+    return document;
   }
 }
