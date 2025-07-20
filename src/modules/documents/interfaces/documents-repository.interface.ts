@@ -3,7 +3,7 @@ import { Document } from "src/modules/documents/entities/document.entity";
 import { FindOneOptions } from "typeorm";
 
 export abstract class IDocumentsRepository {
-  abstract create(documentData: CreateDocumentDto): Promise<Document>;
+  abstract create(documentData: Document): Promise<Document>;
   abstract findOne(where: FindOneOptions<Document>): Promise<Document | null>;
   abstract findAll(): Promise<Document[]>;
 }
