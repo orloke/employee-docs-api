@@ -1,5 +1,5 @@
 import { Document } from 'src/modules/documents/entities/document.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class DocumentType {
@@ -11,4 +11,7 @@ export class DocumentType {
 
   @OneToMany(() => Document, (document) => document.documentType)
   documents: Document[];
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
