@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FindManyOptions, Like, Raw } from 'typeorm';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { FilterDto } from './dto/filter.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
@@ -17,9 +16,11 @@ export class EmployeesService implements IEmployeesService {
   constructor(private readonly employeesRepository: IEmployeesRepository) {}
 
   public async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
-
     if (createEmployeeDto.document) {
-      createEmployeeDto.document = createEmployeeDto.document.replace(/\D/g, '');
+      createEmployeeDto.document = createEmployeeDto.document.replace(
+        /\D/g,
+        '',
+      );
     }
 
     const employee = await this.employeesRepository.findOneWithDeleted({
@@ -44,19 +45,8 @@ export class EmployeesService implements IEmployeesService {
   }> {
     const { page = 1, limit = 10 } = filters || { page: 1, limit: 10 };
 
-    const findOptions: FindManyOptions<Employee> = {
-      where: {
-        ...(filters?.name && {
-          name: Raw((alias) => `${alias} ILIKE '%${filters.name}%'`),
-        }),
-        ...(filters?.document && { document: Like(`%${filters.document}%`) }),
-      },
-      take: limit,
-      skip: (page - 1) * limit,
-    };
-
     const [employees, totalItems] =
-      await this.employeesRepository.findAndCount(findOptions);
+      await this.employeesRepository.findWithFilters(filters ?? {});
 
     const totalPages = Math.ceil(totalItems / limit);
 
