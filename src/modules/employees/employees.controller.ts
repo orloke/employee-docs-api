@@ -30,14 +30,15 @@ export class EmployeesController {
   @ApiOperation({ summary: 'Create new employee' })
   @ApiCreatedResponse({ type: Employee })
   @ApiConflictResponse({ description: 'Employee already exists' })
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeesService.create(createEmployeeDto);
+
+  async create(@Body() createEmployeeDto: CreateEmployeeDto) {
+    return await this.employeesService.create(createEmployeeDto);
   }
 
   @ApiOperation({ summary: 'Find all employees' })
   @ApiOkResponse({ type: [Employee] })
   @Get()
-  findAll(@Query() filters?: FilterDto): Promise<{
+  async findAll(@Query() filters?: FilterDto): Promise<{
     data: Employee[];
     pagination: {
       totalItems: number;
@@ -46,26 +47,26 @@ export class EmployeesController {
       totalPages: number;
     };
   }> {
-    return this.employeesService.findAll(filters);
+    return await this.employeesService.findAll(filters);
   }
 
   @ApiOperation({ summary: 'Find one employee by id' })
   @ApiOkResponse({ type: Employee || null })
   @ApiNotFoundResponse({ description: 'Employee not found' })
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number): Promise<Employee | null> {
-    return this.employeesService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Employee | null> {
+    return await this.employeesService.findOne(id);
   }
 
   @ApiOperation({ summary: 'Update employee by id' })
   @ApiOkResponse({ type: Employee || null })
   @ApiNotFoundResponse({ description: 'Employee not found' })
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
   ): Promise<Employee | null> {
-    return this.employeesService.update(id, updateEmployeeDto);
+    return await this.employeesService.update(id, updateEmployeeDto);
   }
 
   @ApiOperation({ summary: 'Delete employee by id' })
@@ -81,7 +82,7 @@ export class EmployeesController {
     },
   })
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.employeesService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.employeesService.remove(id);
   }
 }
