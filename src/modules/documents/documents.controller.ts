@@ -1,19 +1,27 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateDocumentDto } from './dto/create-document.dto';
-import { IDocumentService } from './interfaces/documents-service.interface';
-import { ApiOperation, ApiCreatedResponse, ApiConflictResponse } from '@nestjs/swagger';
+import {
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 import { Document } from 'src/modules/documents/entities/document.entity';
+import { IDocumentService } from './interfaces/documents-service.interface';
+import { CreateManyDocumentDto } from './dto/create-many-document.dto';
 
 @Controller('documents')
 export class DocumentsController {
   constructor(private readonly documentsService: IDocumentService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new document type' })
-  @ApiCreatedResponse({ type: Document })
-  @ApiConflictResponse({description: 'Document type already exists'})
-  create(@Body() createDocumentDto: CreateDocumentDto) {
-    return this.documentsService.create(createDocumentDto);
+  @ApiOperation({ summary: 'Create one or more documents' })
+  @ApiCreatedResponse({ type: Document, isArray: true })
+  @ApiConflictResponse({ description: 'Document already exists' })
+  create(@Body() body: CreateManyDocumentDto) {
+    if (Array.isArray(body.documents) && body.documents.length > 1) {
+      return this.documentsService.createMany(body.documents);
+    }
+
+    return this.documentsService.create(body.documents[0]);
   }
 
   @Get()

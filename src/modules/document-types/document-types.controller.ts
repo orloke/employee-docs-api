@@ -8,27 +8,27 @@ export class DocumentTypesController {
   constructor(private readonly documentTypesService: IDocumentTypesService) {}
 
   @Post()
-  create(@Body() createDocumentTypeDto: CreateDocumentTypeDto) {
-    return this.documentTypesService.create(createDocumentTypeDto);
+  async create(@Body() createDocumentTypeDto: CreateDocumentTypeDto) {
+    return await this.documentTypesService.create(createDocumentTypeDto);
   }
 
   @Get()
-  findAll() {
-    return this.documentTypesService.findAll();
+  async findAll() {
+    return await this.documentTypesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.documentTypesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.documentTypesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateDocumentTypeDto: UpdateDocumentTypeDto) {
-    return this.documentTypesService.update(+id, updateDocumentTypeDto);
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateDocumentTypeDto: UpdateDocumentTypeDto) {
+    return await this.documentTypesService.update(+id, updateDocumentTypeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.documentTypesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.documentTypesService.remove(+id);
   }
 }

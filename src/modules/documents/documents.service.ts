@@ -48,7 +48,6 @@ export class DocumentsService implements IDocumentService {
 
     const existing = await this.documentRepository.findOne({
       where: {
-        value: cleanValue,
         employee: { id: employeeId },
         documentType: { id: documentTypeId },
       },
@@ -66,6 +65,14 @@ export class DocumentsService implements IDocumentService {
     document.documentType = documentType;
 
     return await this.documentRepository.create(document);
+  }
+
+  public async createMany(documents: CreateDocumentDto[]): Promise<Document[]> {
+    const createdDocuments = await Promise.all(
+      documents.map((document) => this.create(document)),
+    );
+
+    return createdDocuments;
   }
 
   public async findAll(): Promise<Document[] | null> {
