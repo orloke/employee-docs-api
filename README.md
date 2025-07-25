@@ -62,12 +62,12 @@ Esse comando cria as tabelas no banco de dados conforme definidas no projeto.
 ## ✅ Endpoints principais
 | Método | Rota         | Descrição            |
 | ------ | ------------ | -------------------- |
-| GET    | `/employees` | Listar colaboradores |
-| POST   | `/employees` | Criar colaborador    |
-| GET    | `/documents` | Listar documentos    |
-| POST   | `/documents` | Criar documento      |
+| GET    | `/api/v1/employees` | Listar colaboradores |
+| POST   | `/api/v1/employees` | Criar colaborador    |
+| GET    | `/api/v1/documents` | Listar documentos    |
+| POST   | `/api/v1/documents` | Criar documento      |
 
-A API pode conter filtros e validações específicas. Consulte a documentação ou o Swagger (se configurado em /api).
+A API pode conter filtros e validações específicas. Consulte a documentação ou o Swagger em /api/v1/docs.
 
 🧑‍💻 Rodando localmente sem Docker (modo dev)
 ```bash
