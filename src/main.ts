@@ -16,6 +16,12 @@ async function bootstrap() {
     .setDescription('Employee Docs API')
     .setVersion(version)
     .setExternalDoc('Employee Docs API Docs', `/api/${version}/docs-json`)
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    }, 'jwt-auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

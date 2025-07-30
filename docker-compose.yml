@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:15
@@ -15,23 +13,23 @@ services:
     networks:
       - employee_network
 
-  api:
-    build: .
-    container_name: employee-docs-api
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USER: ${DATABASE_USER}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      DATABASE_NAME: ${DATABASE_NAME}
-      # Outras variáveis necessárias como JWT_SECRET etc.
-    ports:
-      - "3000:3000"
-    networks:
-      - employee_network
-    command: npm run start:prod # ou apenas: node dist/main
+  # api:
+  #   build: .
+  #   container_name: employee-docs-api
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_HOST: postgres
+  #     DATABASE_PORT: 5432
+  #     DATABASE_USER: ${DATABASE_USER}
+  #     DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+  #     DATABASE_NAME: ${DATABASE_NAME}
+  #     # Outras variáveis necessárias como JWT_SECRET etc.
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - employee_network
+  #   command: npm run start:prod # ou apenas: node dist/main
 
 volumes:
   postgres_data:

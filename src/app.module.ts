@@ -5,6 +5,8 @@ import dataSource from './database/data-source';
 import { EmployeesModule } from './modules/employees/employees.module';
 import { DocumentsModule } from './modules/documents/documents.module';
 import { DocumentTypesModule } from './modules/document-types/document-types.module';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { DocumentTypesModule } from './modules/document-types/document-types.mod
     EmployeesModule,
     DocumentsModule,
     DocumentTypesModule,
+    UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
